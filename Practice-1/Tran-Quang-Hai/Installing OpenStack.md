@@ -100,13 +100,7 @@ enable_keystone: "yes"
 enable_nova: "yes"
 ```
 
-#### **Substep 7.1**: Creating an all-in-one file (similar to Ansible's hosts file) in current directory with the content below
-
-```
-[deployment]
-localhost ansible_connection=local become=true
-```
-
+#### **Substep 7.1**: Test ansible
 Test Ansible with the following command:
 ```
 ansible -i all-in-one all -m ping

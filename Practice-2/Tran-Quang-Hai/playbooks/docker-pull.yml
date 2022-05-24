@@ -1,0 +1,15 @@
+- hosts: personal
+  become: true
+  tasks:
+  - name: Pull image
+    command: 
+      cmd: docker pull haitranquangofficial/graduation:parser
+  - name: Run image
+    command:
+      cmd: docker run -d haitranquangofficial/graduation:parser
+  - name: Check status
+    command:
+      cmd: docker ps -a
+    register: shell_result
+  - debug: 
+      var: shell_result.stdout_lines
