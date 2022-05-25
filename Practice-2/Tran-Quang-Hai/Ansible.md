@@ -110,37 +110,129 @@ Translating to ansible (with become:true):
 Output of the debug command in playbook file:
 <img src="imgs/3-Docker status.png">
 
-FINAL VERSION OF THE PLAYBOOK:
+Task list to install docker:
 ```
-- hosts: all
-  become: true
-  tasks:
-    - name: Install required packages
-      apt:
-        pkg:
-        - apt-transport-https 
-        - ca-certificates 
-        - curl 
-        - software-properties-common
-        - python3-pip
-        update_cache: true
-    - name: Add Docker GPG key
-      apt_key:
-        url: https://download.docker.com/linux/ubuntu/gpg
-        state: present
-    - name: Update apt and install docker-ce 
-      apt:
-        name: docker-ce
-        state: latest
-        update_cache: true
-    - name: Show docker info
-      command:
-        cmd: systemctl status docker
-      register: shell_result
-    - debug:
-        var: shell_result.stdout_lines
-    - name: Run docker without sudo 
-      shell: |
-        usermod -aG docker root 
+- name: Install required packages
+  apt:
+    pkg:
+    - apt-transport-https 
+    - ca-certificates 
+    - curl 
+    - software-properties-common
+    - python3-pip
+    update_cache: true
+- name: Add Docker GPG key
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+- name: Update apt and install docker-ce 
+  apt:
+    name: docker-ce
+    state: latest
+    update_cache: true
+- name: Show docker info
+  command:
+    cmd: systemctl status docker
+  register: shell_result
+- debug:
+    var: shell_result.stdout_lines
+- name: Run docker without sudo 
+  shell: |
+    usermod -aG docker root 
+```
 
+### **Step 3: Deploy a Docker project with Ansible**
+
+After installing Docker, we're now able to pull an image and run it in the remote server
+
+### **Step 3.1**: Pull image from Docker Hub
+To pull the image above, we use:
 ```
+docker pull haitranquangofficial/graduation:parser
+```
+In Ansible:
+```
+- name: Pull image
+  command:
+    cmd: docker pull haitranquangofficial/graduation:parser
+```
+
+### **Step 3.2**: Run image (in detached mode)
+```
+docker run -d haitranquangofficial/graduation:parser
+```
+In Ansible:
+```
+- name: Run image
+  command:
+    cmd: docker run -d haitranquangofficial/graduation:parser
+  register: shell_result
+- debug:
+    var: shell_result.stdout_lines
+```
+
+Task list to deploy:
+```
+- name: Pull image
+  command:
+    cmd: docker pull haitranquangofficial/graduation:parser
+- name: Run image
+  command:
+    cmd: docker run -d haitranquangofficial/graduation:parser
+  register: shell_result
+- debug:
+    var: shell_result.stdout_lines
+```
+
+### **Step 4: Assemble playbooks together**
+
+### **Step 4.1**: Define a role
+
+For reference, here is the document about [roles in Ansible](https://docs.ansible.com/ansible/latest/user_guide/playbooks_reuse_roles.html)
+
+Create a set of folder: roles/*rolename*/tasks
+
+For my case, I will only use tasks folder.
+
+Add two yml files of step 3 and 2 to that folder, and create a new file called main.yml with content like below:
+```
+- include_tasks: install-docker.yml
+- include_tasks: deploy-docker.yml
+```
+=> When *rolename* is used, all tasks from install-docker.yml and deploy-docker.yml will be triggered
+### **Step 4.2**: Create final playbook
+
+Create a playbook, for my case it is called "assemble.yml" with the relative location like below:
+
+<img src="imgs/4-Structure.png">
+
+Content of assemble.yml:
+```
+- hosts: personal
+  become: true
+  roles:
+    - personal
+```
+As I mention above, all the tasks of role personal will be triggered, meaning all tasks from deploy-docker and install-docker
+
+### **Step 5**: Run playbook
+
+Run the playbook with the following command:
+```
+ansible-playbook -i <path_to_inventory> <path_to_playbook>
+```
+[Expected output](https://paste.opendev.org/raw/b0gQziAC5xzuYbFE4tK5/)
+
+Test the result by ssh into the remote server and run:
+```
+docker ps
+```
+Result:
+<img src="imgs/5-Docker container status.png">
+To test whether the application can be accessed from outside, run this command from your local machine:
+```
+telnet <ipaddress> <port>
+```
+Expected output:
+<img src="imgs/7-App status.png">
+

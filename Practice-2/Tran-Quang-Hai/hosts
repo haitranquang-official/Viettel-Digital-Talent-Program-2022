@@ -1,4 +1,2 @@
 [personal]
 159.89.203.89
-[local]
-localhost ansible_connection=local
