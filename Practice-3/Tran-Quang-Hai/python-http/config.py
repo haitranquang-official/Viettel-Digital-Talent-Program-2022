@@ -2,7 +2,7 @@ from flask_mongoengine import MongoEngine
 
 config = {
     'db': 'student',
-    'host': 'localhost',
+    'host': 'mongodb',
     'port': 27017
 }
 

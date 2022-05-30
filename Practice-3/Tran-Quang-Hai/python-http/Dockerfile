@@ -2,8 +2,6 @@ FROM python:3.9
 RUN mkdir /python-app
 WORKDIR /python-app
 COPY ./requirements.txt requirements.txt
-
-RUN apt-get install -y python3-pip
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .

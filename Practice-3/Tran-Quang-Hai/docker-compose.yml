@@ -4,8 +4,15 @@ services:
   mongodb:
     image: mongo:5.0
     ports:
-      - 27017:27017
+      - 27016:27017
   pythonapp:
-    image: haitranquangofficial/viettel:docker-python-hw
+    build: python-http/
     ports:
       - 5000:5000
+  nginx:
+    build: nginx/
+    restart: always
+    ports:
+      - 5005:80
+    depends_on:
+      - pythonapp
