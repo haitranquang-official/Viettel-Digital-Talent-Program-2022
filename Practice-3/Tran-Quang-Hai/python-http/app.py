@@ -1,5 +1,5 @@
 import config
-from flask import jsonify, request, Flask
+from flask import jsonify, render_template, request, Flask
 from flask_mongoengine import MongoEngine
 app = Flask(__name__)
 app.config['MONGODB_SETTINGS'] = config.get_config()
@@ -18,7 +18,8 @@ class Student(db.Document):
 
 @app.route('/all', methods=['GET'])
 def all():
-    return jsonify(Student.objects.all())
+    students = Student.objects.all()
+    return render_template('list.html', students=students)
 
 
 @app.route('/add', methods=['POST'])
