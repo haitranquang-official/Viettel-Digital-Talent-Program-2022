@@ -1,8 +1,17 @@
 # **TASK: CREATE A THREE-TIER APPLICATION AND DEPLOY WITH DOCKER AND DOCKER-COMPOSE**
 
 ## **1. Overview**
+This project sets up a three-tier web application that displays the course
+attendees’ information on the browser using docker-compose.
+<br>
+Base images:
+<br>
+• nginx:1.22.0-alpine
+<br>
+• python:3.9
+<br>
+• mongo:5.0
 
-### **1.1.** 
 
 ## **2. MongoDB**
 
@@ -215,7 +224,18 @@ Show all contexts that have been created:
 docker context ls
 ```
 
-### **6.1.4.** Simple load balancer with nginx
+### **6.2.** Deploy with docker-compose
+First, I switch docker context to the server that I'm going to deploy those applications:
+```
+docker context use <context_name>
+```
+Then you are good to go, just run:
+```
+docker-compose up -d
+```
+
+### **6.3.** (Optional) Simple load balancer with nginx
+### **6.3.1.** nginx.conf file
 ```
     upstream flask{
         server 178.128.109.226
