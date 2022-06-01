@@ -7,10 +7,24 @@
     <title>Document</title>
 </head>
 <body>
-    <ul>
+    <table>
+        <tr>
+            <th>STT</th>
+            <th>Tên</th>
+            <th>Năm sinh</th>
+            <th>Trường</th>
+            <th>Chuyên ngành</th>
+        </tr>
         {% for student in students %}
-          <li>{{ student.email }}</li>
+        <tr>
+            <td>{{ student.number }}</td>
+            <td>{{ student.name }}</td>
+            <td>{{ student.yob }}</td>
+            <td>{{ student.university }}</td>
+            <td>{{ student.major }}</td>
+        </tr>  
+        
         {% endfor %}
-    </ul>
+    </table>
 </body>
 </html>

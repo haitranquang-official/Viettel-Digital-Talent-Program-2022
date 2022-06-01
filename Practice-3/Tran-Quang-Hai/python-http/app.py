@@ -8,27 +8,18 @@ db.init_app(app)
 
 
 class Student(db.Document):
+    number = db.IntField()
     name = db.StringField()
-    email = db.StringField()
-
-    def to_json(self):
-        return {"name": self.name,
-                "email": self.email}
+    yob = db.IntField()
+    major = db.StringField()
+    university = db.StringField()
 
 
 @app.route('/all', methods=['GET'])
 def all():
-    students = Student.objects.all()
+    students = list(Student.objects.all())
+    students.sort(key=lambda x: x.number)
     return render_template('list.html', students=students)
-
-
-@app.route('/add', methods=['POST'])
-def add():
-    record = request.json
-    student = Student(name=record['name'], email=record['email'])
-    student.save()
-    return jsonify(student.to_json())
-
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
