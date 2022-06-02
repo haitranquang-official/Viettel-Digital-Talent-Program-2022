@@ -3,17 +3,19 @@ version: '3.0'
 services:
   mongodb:
     image: mongo:5.0
+    restart: always
     container_name: mongodb_vt
     ports:
-      - 27016:27017
+      - 27017:27017
   pythonapp:
-    build: python-http/
-    ports:
-      - 5009:5000
-  nginx:
-    build: nginx/
+    image: haitranquangofficial/viettel:hw3-python
     restart: always
     ports:
-      - 5005:80
+      - 5000:5000
+  nginx:
+    image: haitranquangofficial/viettel:hw3-nginx
+    restart: always
+    ports:
+      - 80:80
     depends_on:
       - pythonapp

@@ -2,7 +2,7 @@ version: '3.0'
 
 services:
   nginx-lb:
-    build: ./
+    image: haitranquangofficial/viettel:hw3-nginx-lb
     restart: always
     ports:
-      - 444:80
+      - 80:80

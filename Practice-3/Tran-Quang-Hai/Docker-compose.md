@@ -167,6 +167,16 @@ EXPOSE 5000
 - Running app should look like this if we access http://<app_url>/all
 <img src = "imgs/3-Flask app.png">
 
+- To build and to push it to a docker repository:
+```
+docker build -t <username>/<repository>:<tag> .
+docker push <username>/<repository>:<tag>
+```
+Remember to use proper context (usually where your codebase is located) - for my case it's default
+```
+docker context use default
+```
+
 ## **4. Nginx**
 
 ### **4.1.** Custom configuration
@@ -201,18 +211,20 @@ version: '3.0'
 services:
   mongodb:
     image: mongo:5.0
+    restart: always
     container_name: mongodb_vt
     ports:
-      - 27016:27017
+      - 27017:27017
   pythonapp:
-    build: python-http/
-    ports:
-      - 5009:5000
-  nginx:
-    build: nginx/
+    image: haitranquangofficial/viettel:hw3-python
     restart: always
     ports:
-      - 5005:80
+      - 5000:5000
+  nginx:
+    image: haitranquangofficial/viettel:hw3-nginx
+    restart: always
+    ports:
+      - 80:80
     depends_on:
       - pythonapp
 ```
@@ -259,6 +271,11 @@ Show all contexts that have been created:
 ```
 docker context ls
 ```
+To use a specific docker context:
+```
+docker context use <context_name>
+```
+<img src="imgs/4-Docker context.png">
 
 ### **6.2.** Deploy with docker-compose
 First, I switch docker context to the server that I'm going to deploy those applications:
@@ -274,19 +291,20 @@ docker-compose up -d
 ### **6.3.1.** nginx.conf file
 ```
     upstream flask{
-        server 178.128.109.226:5009
-        server 178.128.103.48:5009
+        server 178.128.101.240;
+        server 178.128.103.48;
     }
     server {
         listen 80;
-        proxy_pass_header Server;
 
         location / {
-            proxy_set_header Host $host;
-            proxy_set_header X-Real-IP $remote_addr;
             proxy_pass http://flask/;
         }
     }
 ```
-Traffic to port 80 nginx host will be distributed to servers 178.128.109.226 and 178.128.103.48 both at port 5000
-
+Traffic to port 80 nginx host will be distributed to servers 178.128.109.240 and 178.128.103.48 both at port 5000
+<br>
+You can try to access the project at 178.128.109.226.
+<br>
+After reloading the page for a few times, you will notice that entry #25 changes - "I'm server 1" and "I'm server 2"
+<img src="imgs/5-Final.png">
