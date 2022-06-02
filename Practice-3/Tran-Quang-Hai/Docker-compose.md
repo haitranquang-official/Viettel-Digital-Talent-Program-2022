@@ -32,6 +32,17 @@ Explanation:
 <br>
 We would later use this command in docker container's shell
 
+For Docker container, first we need to copy datasource to container with the following command:
+```
+docker cp <file_name> <container_name>:<location>
+```
+
+Then we access mongodb container:
+```
+docker exec -it <container_name> bash
+```
+After that, run the mongoimport command above
+
 
 ## **3. Python Application**
 
@@ -152,6 +163,10 @@ ENTRYPOINT [ "python", "app.py" ]
 EXPOSE 5000
 ```
 - requirements.txt file and pip install command don't usually change the content of the image compare to the last build, so these commands would be run first
+
+- Running app should look like this if we access http://<app_url>/all
+<img src = "imgs/3-Flask app.png">
+
 ## **4. Nginx**
 
 ### **4.1.** Custom configuration
@@ -210,7 +225,28 @@ For mongodb, I use default image on dockerhub, while for pythonapp and nginx I b
 ### **6.1.** Create a Docker context
 
 ### **6.1.1.** Initial SSH connection
+First, we change our directory to ~/.ssh
 
+```
+cd ~/.ssh
+```
+Run the following command to generate a key
+```
+ssh-keygen -t rsa
+```
+You will have to fill several questions
+<img src="imgs/2-Generate SSH key.png">
+*Don't capture and show the screenshot as I did here*
+
+Next, we copy the generated .pub file to the remote server with the following command:
+```
+ssh-copy-id -i <file_name>.pub <remote_user>@<remote_server>
+```
+Type in the password as usual, but from now on you won't have to type the password again while trying to SSH to the remote server. To finalize and make the SSH context persistent between sessions, add those 2 lines into ~/.bashrc file
+```
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/<file_name_only>
+```
 ### **6.1.2.** Install Docker on remote machine
 For this task, I would reuse Ansible playbook from last assignment. [Link to playbooks]("https://github.com/haitranquang-official/Viettel-Digital-Talent-Program-2022/tree/main/Practice-2/Tran-Quang-Hai/playbooks/roles/personal/tasks").
 
@@ -238,8 +274,8 @@ docker-compose up -d
 ### **6.3.1.** nginx.conf file
 ```
     upstream flask{
-        server 178.128.109.226
-        server 178.128.103.48
+        server 178.128.109.226:5009
+        server 178.128.103.48:5009
     }
     server {
         listen 80;
@@ -248,7 +284,7 @@ docker-compose up -d
         location / {
             proxy_set_header Host $host;
             proxy_set_header X-Real-IP $remote_addr;
-            proxy_pass http://flask:5000/;
+            proxy_pass http://flask/;
         }
     }
 ```
