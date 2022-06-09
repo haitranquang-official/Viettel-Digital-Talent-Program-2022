@@ -14,4 +14,4 @@
   tags: 
     - local
   loop:
-    - {name: 'Prom', file_path = '/home/haivm/Documents/Viettel-Digital-Talent-Program-2022/Practice-4/Tran-Quang-Hai/node/docker-compose.yml'}
+    - {name: 'Prom', file_path: '/home/haivm/Documents/Viettel-Digital-Talent-Program-2022/Practice-4/Tran-Quang-Hai/node/docker-compose.yml'}

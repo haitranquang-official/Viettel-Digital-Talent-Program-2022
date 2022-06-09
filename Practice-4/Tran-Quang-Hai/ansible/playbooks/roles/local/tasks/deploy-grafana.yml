@@ -15,5 +15,5 @@
   tags: 
     - local
   loop:
-    - {name: 'Grafana1', file_path = '/home/haivm/Documents/Viettel-Digital-Talent-Program-2022/Practice-4/Tran-Quang-Hai/ha/docker-compose.yml'}
-    - {name: 'Grafana2', file_path = '/home/haivm/Documents/Viettel-Digital-Talent-Program-2022/Practice-4/Tran-Quang-Hai/ha/docker-compose.yml'}
+    - {name: 'Grafana1', file_path: '/home/haivm/Documents/Viettel-Digital-Talent-Program-2022/Practice-4/Tran-Quang-Hai/ha/docker-compose.yml'}
+    - {name: 'Grafana2', file_path: '/home/haivm/Documents/Viettel-Digital-Talent-Program-2022/Practice-4/Tran-Quang-Hai/ha/docker-compose.yml'}
