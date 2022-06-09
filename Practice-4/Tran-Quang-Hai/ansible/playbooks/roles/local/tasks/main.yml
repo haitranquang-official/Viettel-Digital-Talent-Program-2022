@@ -1,3 +1,2 @@
-- include_tasks: deploy-ha.yml
 - include_tasks: deploy-prom-node.yml
 - include_tasks: deploy-grafana.yml

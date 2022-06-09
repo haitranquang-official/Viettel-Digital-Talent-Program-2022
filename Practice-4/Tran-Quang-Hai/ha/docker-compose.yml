@@ -17,6 +17,6 @@ services:
     image: haitranquangofficial/hw4-viettel:nginx
     restart: always
     ports:
-      - 80:80
+      - 89:80
 volumes:
   grafana:
