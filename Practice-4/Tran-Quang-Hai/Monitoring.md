@@ -25,6 +25,9 @@ We need a custom prometheus.yml file like below:
 global:
   scrape_interval: 1m
 
+rule_files:
+  - "alert.rules"
+
 scrape_configs:
   - job_name: "prometheus"
     scrape_interval: 1m
@@ -34,14 +37,23 @@ scrape_configs:
   - job_name: "node"
     static_configs:
     - targets: ["node-exporter:9100"]
+
+alerting:
+  alertmanagers:
+  - scheme: http
+    static_configs:
+    - targets: 
+      - 'alertmanager:9093'
 ```
-Which means Prometheus will scrape the status of 2 jobs: prometheus and node-exporter each 1m.
+Which means Prometheus will scrape the status of 2 jobs: prometheus and node-exporter each 1m. It will use alert manager at port 9093 also (if two services on the same docker network)
 
 Prometheus dockerfile:
 ```
 FROM prom/prometheus:latest
 
 COPY prometheus.yml /etc/prometheus/prometheus.yml
+
+COPY alert.rules /etc/prometheus/alert.rules
 ```
 
 #### **Step 1.2:** Grafana
@@ -123,6 +135,33 @@ providers:
 ```
 
 In <dashboard_name>.json file, we have the configs for a dashboard. We can get after deploying grafana container without having any json file and design it later.
+
+### **Step 1.3**: Alert Manager
+Prometheus' alert.rules:
+```
+groups:
+- name: alert
+  rules:
+  - alert: full_storage
+    expr: node_filesystem_size_bytes - node_filesystem_free_bytes < 100000
+    for: 10s
+    labels:
+      severity: critical
+    annotations:
+      summary: "Toang"
+      description: "Toang"
+- name: alert
+  rules:
+  - alert: cho_vui
+    expr: up{instance="localhost:9090", job="prometheus"} == 1
+    for: 10s
+    labels:
+      severity: critical
+    annotations:
+      summary: "Còn lâu mới toang, báo cho vui thôi"
+      description: "Mệt"
+```
+Reference: [Setting with Slack](https://grafana.com/blog/2020/02/25/step-by-step-guide-to-setting-up-prometheus-alertmanager-with-slack-pagerduty-and-gmail/)
 
 #### **Substep**: ***Designing a Grafana dashboard and get a json file***
 
@@ -252,8 +291,11 @@ For all nodes (with Grafana as an example):
 
 ```
 - name: Deploy Grafana on Grafana nodes
-  become: true
-  shell: docker context use {{item.name}} | docker-compose up -f {{item.file_path}} -d
+  become_user: haivm
+  shell: | 
+    docker context use {{item.name}} 
+    docker-compose -f {{item.file_path}} pull
+    docker-compose -f {{item.file_path}} up -d
   ignore_errors: true
   tags: 
     - local
@@ -277,3 +319,45 @@ Each services will use a specific port, to allow we need to config Linux firewal
 Structure of ansible files:
 
 <img src="imgs/8-Ansible Structure.png">
+
+assemble.yml content:
+
+```
+- hosts: servers
+  become: true
+  roles:
+    - servers
+
+- hosts: grafana
+  become: true
+  roles: 
+    - grafana
+
+- hosts: prometheus
+  become: true
+  roles:
+    - prometheus
+
+- hosts: ha
+  become: true
+  roles:
+    - ha
+  
+- hosts: local
+  become: true
+  roles:
+    - local
+  tags: 
+    - local
+```
+
+Run command below:
+```
+ansible-playbook -i <path_to_hosts_file> <path_to_inventory_file>
+```
+
+Final Result:
+<img src='imgs/9-Final Result.png'>
+Login with the credentials in docker-compose file
+
+<img src='imgs/10-Alert Manager.png'>
