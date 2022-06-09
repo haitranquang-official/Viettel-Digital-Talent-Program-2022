@@ -1,0 +1,17 @@
+- name: Create Docker context for Prometheus
+  become: true
+  shell: docker context create {{item.name}} --docker "host=ssh://root@{{item.ip}}"
+  ignore_errors: true
+  tags: 
+    - local
+  loop: 
+    - {name: 'Prom', ip: '178.128.103.48'}
+
+- name: Deploy on Prometheus node
+  become: true
+  shell: docker context use {{item.name}} | docker-compose up -f {{item.file_path}} -d
+  ignore_errors: true
+  tags: 
+    - local
+  loop:
+    - {name: 'Prom', file_path = '/home/haivm/Documents/Viettel-Digital-Talent-Program-2022/Practice-4/Tran-Quang-Hai/node/docker-compose.yml'}

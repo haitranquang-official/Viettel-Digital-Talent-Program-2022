@@ -13,5 +13,10 @@ services:
     restart: unless-stopped
     ports:
       - 9192:3000
+  nginx:
+    image: haitranquangofficial/hw4-viettel:nginx
+    restart: always
+    ports:
+      - 80:80
 volumes:
   grafana:
