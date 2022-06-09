@@ -1,0 +1,19 @@
+- hosts: local
+  become: true
+  roles:
+    - local
+
+- hosts: servers
+  become: true
+  roles:
+    - servers
+
+- hosts: grafana
+  become: true
+  roles: 
+    - grafana
+
+- hosts: prometheus
+  become: true
+  roles:
+    - prometheus
