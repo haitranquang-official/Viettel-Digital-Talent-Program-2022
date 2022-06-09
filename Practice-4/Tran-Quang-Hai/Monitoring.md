@@ -271,3 +271,9 @@ Each services will use a specific port, to allow we need to config Linux firewal
   become: true
   shell: ufw allow 'X' | ufw enable | ufw reload
 ```
+
+### **Step 3.4**: Assemble and run playbook
+
+Structure of ansible files:
+
+<img src="imgs/8-Ansible Structure.png">
