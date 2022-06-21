@@ -1,3 +1,8 @@
+<style>
+    .pagebreak { page-break-after: always; }
+</style>
+
+
 # **MICROSERVICES OR MONOLITHIC ARCHITECTURE?**
 
 # **Table of contents**
@@ -26,12 +31,15 @@
 
 <br>
 
+<div class="pagebreak" />
+
 <a name='i-introduction'></a>
 
 # **I. INTRODUCTION**
 
 ### With the development of cloud computing, companies are migrating from traditional monolithic systems to microservices architecture. This novel solution, even though being very powerful, still has its own limitations and as any other kind of architectures, should not be considered as an one-for-all answer for all kinds of applications.
-<br>
+<div class="pagebreak" />
+
 <a name='ii-theoretical-background'></a>
 
 # **II. THEORETICAL BACKGROUND**
@@ -56,6 +64,8 @@
 ### - An application is built as a single unit.
 ### - All functionalities are developed in a single codebase and they are usually tightly coupled.
 
+<div class="pagebreak" />
+
 ## **2. Microservices**
 <figure>
 <img src="imgs/2-Microservices.png" style="width:100%">
@@ -76,7 +86,8 @@
 ### - Each microservice can be developed by a small team.
 ### - Microservices in a system are loosely coupled
 
-<br>
+<div class="pagebreak" />
+
 <a name='iii-practical-experience'></a>
 
 # **III. PRACTICAL EXPERIENCE**
@@ -101,9 +112,13 @@
 
 ### This application did not require any database to run, so it was still fine for us to put everything in one single codebase and got away with it. The whole project was written in Java, so the User Interface was not very fancy, but the app worked.
 
+<div class="pagebreak" />
+
 ### The honeymoon with monolithic architecture ended when I participated in the second project - still classroom-level, but for this one we needed to use a database and a friendly UI, and this time, things were messy.
 
 ### Our naive team did what IT college students usually do when they do a project at the university: Bundle everything in one single codebase - Frontend, Backend, Authentication,... EVERYTHING! and we took system designing process for granted 
+
+<div class="pagebreak" />
 
 ## **2. Microservices**
 
@@ -116,6 +131,8 @@
 <figcaption align="center"><i>GitLab organization page - 26 repositories</i></figcaption>
 </figure>
 
+<div class="pagebreak" />
+
 ### Despite having 20+ repositories, there still exists several services that are not really "micro", for example:
 
 <figure>
@@ -125,11 +142,15 @@
 
 ### One single "microservice" that managed 80+ tables in a database which made me - a new team member found it very difficult to understand the code. Also, with 80+ entities, it is completely impossible to have any kind of UML diagram or document that can explain the application, especially for a miserable fresher like me.
 
+<div class="pagebreak" />
+
 ### Looking back at the diagram still gives me nightmares, but for now, after having a better understanding of the architecture, I am pretty confident that if I am able to redesign this project, I would do a lot better than the one I had to work with before.
 
 ### Despite having 80+ tables, as we all can see from the ERD, those entities are loosely coupled, so it should be totally fine to separate them into several more microservices, at least for authentication and statistics-related entities.
 
 ### Even though the first experience was not very good, I still find the elegance in this architecture and then apply it to two other projects that I participate, one as a leader and one as the only developer (my graduation research project).
+
+<div class="pagebreak" />
 
 ### The second one, which I led:
 
@@ -144,6 +165,8 @@
 
 ### Each microservice can be developed by one single developer, and he/she can use whatever language that he/she feels confident about.
 
+<div class="pagebreak" />
+
 ### The third one - my graduation research project:
 
 <figure>
@@ -151,7 +174,7 @@
 <figcaption align="center"><i>Component Diagram</i></figcaption>
 </figure>
 
-<br>
+<div class="pagebreak" />
 <a name='iv-comparison'></a>
 
 # **IV. COMPARISON**
@@ -163,8 +186,7 @@
 ## **2. Practical POV**
 
 ###
-
-<br>
+<div class="pagebreak" />
 <a name='v-conclusion'></a>
 
 # **V. CONCLUSION**
