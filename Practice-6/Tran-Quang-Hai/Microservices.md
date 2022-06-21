@@ -1,36 +1,30 @@
+
 <style>
     .pagebreak { page-break-after: always; }
+    table th:first-of-type {
+    width: 50%;
+    }
+    table th:nth-of-type(2) {
+        width: 50%;
+    }
 </style>
 
 
 # **MICROSERVICES OR MONOLITHIC ARCHITECTURE?**
 
-# **Table of contents**
 
-## [*I. Introduction*](#i-introduction)
-
-## [*II. Theoretical background*](#ii-theoretical-background)
-
-### [1. Monolithic architecture](#ii-theoretical-background)
-
-### [2. Microservices](#ii-theoretical-background)
-
-## [*III. Practical experience*](#iii-practical-experience)
-
-### [1. Monolithic architecture](#iii-practical-experience)
-
-### [2. Microservices](#iii-practical-experience)
-
-## [*IV. Comparison*](#iv-comparison)
-
-### [1. Theoretical POV](#iv-comparison)
-
-### [2. Practical POV](#iv-comparison)
-
-## [*V. Conclusion*](#v-conclusion)
-
-<br>
-
+## **Table of contents**
+<!-- TOC start -->
+- [**I. INTRODUCTION**](#i-introduction)
+- [**II. THEORETICAL BACKGROUND**](#ii-theoretical-background)
+  * [**1. Monolithic architecture** ](#1-monolithic-architecture)
+  * [**2. Microservices**](#2-microservices)
+- [**III. PRACTICAL EXPERIENCE**](#iii-practical-experience)
+  * [**1. Monolithic architecture**](#1-monolithic-architecture-1)
+  * [**2. Microservices**](#2-microservices-1)
+- [**IV. COMPARISON**](#iv-comparison)
+- [**V. CONCLUSION**](#v-conclusion)
+<!-- TOC end -->
 <div class="pagebreak" />
 
 <a name='i-introduction'></a>
@@ -50,6 +44,8 @@
 <figcaption align="center"><i>Monolithic architecture common diagram</i></figcaption>
 </figure>
 <br>
+
+<div class="pagebreak" />
 
 ### *"A monolithic architecture is a traditional model of a software program, which is built as a unified unit that is self-contained and independent from other applications. The word “monolith” is often attributed to something large and glacial, which isn’t far from the truth of a monolith architecture for software design. A monolithic architecture is a singular, large computing network with one code base that couples all of the business concerns together.  To make a change to this sort of application requires updating the entire stack by accessing the code base and building and deploying an updated version of the service-side interface. This makes updates restrictive and time-consuming."*
 <b>[Chandler Harris - Microservices vs. monolithic architecture](https://www.atlassian.com/microservices/microservices-architecture/microservices-vs-monolith)</b>
@@ -72,6 +68,8 @@
 <figcaption align="center"><i>A common diagram for microservice architecture</i></figcaption>
 </figure>
 
+<div class="pagebreak" />
+
 ### *"Microservices are an architectural and organizational approach to software development where software is composed of small independent services that communicate over well-defined APIs. These services are owned by small, self-contained teams."*
 
 <b>[Amazon - What are microservices?](https://aws.amazon.com/microservices/)</b>
@@ -79,6 +77,8 @@
 ### *"Microservices are an architectural approach to building applications. As an architectural framework, microservices are distributed and loosely coupled, so one team’s changes won’t break the entire app. The benefit to using microservices is that development teams are able to rapidly build new components of apps to meet changing business needs"*
 
 <b>[Red Hat - What are microservices?](https://www.redhat.com/en/topics/microservices/what-are-microservices#overview)</b>
+
+<div class="pagebreak" />
 
 ### => **Main points about microservices architecture:**
 
@@ -175,18 +175,30 @@
 </figure>
 
 <div class="pagebreak" />
+
+### This project, even though is being developed by me alone, things are still going pretty well
+
 <a name='iv-comparison'></a>
 
 # **IV. COMPARISON**
 
-## **1. Theoretical POV**
+| Monoliths      | Microservices |
+| :-----------: | :-----------: |
+| Single codebase      | Multiple services - multiple codebases       |
+| Scaling by adding replica nodes with the whole application | Each service can be scaled independently |
+| Difficult to understand for new team members      | Easier for new members to start working on a small service      |
+| Barrier to new technologies | Newer technologies |
+| Usually use only one programming language | Flexible in terms of language |
+| Easy for testing | Difficult to test (needs to create mock services to test one service) |
+| Easy to trace errors and exceptions      | Tracing errors and exceptions is difficult      |
+| Easier deployment (single packaged application)  | Difficult to deploy (have to run all microservices to make the system function as expected)        |
+| Updating a function requires redeploying again the whole system | Only need to redeploy the updated service |
+| Lower initial costs | Higher initial costs|
 
-###
+### => Both architectures have their own strengths and drawbacks. But we can only utilize their strengths with <b>a clear system design and a cohesive way to manage and communicate between team members</b>, otherwise <b>no architectures</b> can save <b>a badly managed and poorly designed project</b>.
 
-## **2. Practical POV**
-
-###
 <div class="pagebreak" />
+
 <a name='v-conclusion'></a>
 
 # **V. CONCLUSION**
