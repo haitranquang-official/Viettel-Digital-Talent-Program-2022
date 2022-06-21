@@ -263,6 +263,10 @@
 
 ### - Pay attention to the size of those microservices, otherwise they will be too large which make the architecture's benefits disappear.
 
+### - A "microservice" can still reach a point where it becomes "macro", and that's when we need to divide it into multiple smaller services.
+
 ### - It is known as a "luxury" solution which would be very suitable for large projects. However, as it inherits the characteristics of "Divide and Conquer" motto, small teams or even individuals are still able to implement microservices as long as their system design process returns a clear picture about those components. 
 
-###
+### - It is relatively rare to see a project moving back to monolithic architectures after applying microservices.
+
+### - Microservices architecture is more prone to security threats since there are more servers to pay attention to and developers also need to configure access matrix for each service properly
