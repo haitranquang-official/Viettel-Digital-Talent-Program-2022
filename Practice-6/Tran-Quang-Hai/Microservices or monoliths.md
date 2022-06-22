@@ -9,9 +9,9 @@
     }
 </style>
 
-
 # **MICROSERVICES OR MONOLITHIC ARCHITECTURE?**
 
+### <p align="right">*Author: Tran Quang Hai*</p>
 
 ## **Table of contents**
 <!-- TOC start -->
@@ -23,7 +23,7 @@
   * [**1. Monolithic architecture**](#1-monolithic-architecture-1)
   * [**2. Microservices**](#2-microservices-1)
 - [**IV. COMPARISON**](#iv-comparison)
-- [**V. CONCLUSION**](#v-conclusion)
+- [**V. REMARKS**](#v-remarks)
 <!-- TOC end -->
 <div class="pagebreak" />
 
@@ -43,7 +43,8 @@
 ## **1. Monolithic architecture** 
 <figure>
 <img src="imgs/1-Monoliths.png" style="width:100%">
-<figcaption align="center"><i>Monolithic architecture common diagram</i></figcaption>
+<figcaption align="center"><i>Monolithic architecture common diagram</i><br><i>Source: Monolithic & Microservices Architecture
+- Henrique Siebert Domareski</i></figcaption>
 </figure>
 <br>
 
@@ -69,7 +70,7 @@
 ## **2. Microservices**
 <figure>
 <img src="imgs/2-Microservices.png" style="width:100%">
-<figcaption align="center"><i>A common diagram for microservice architecture</i></figcaption>
+<figcaption align="center"><i>A common diagram for microservice architecture. Source: microservices.io</i></figcaption>
 </figure>
 
 <div class="pagebreak" />
@@ -117,6 +118,8 @@
 
 ### This application did not require any database to run, so it was still fine for us to put everything in one single codebase and got away with it. The whole project was written in Java, so the User Interface was not very fancy, but the app worked.
 
+### However, the project only required us to illustrate 3 algorithms. If the requirements had been wider (10 - 20 algorithms maybe?), it would have been a lot more difficult to expand.
+
 <div class="pagebreak" />
 
 ## 1.2. Second Project - Bad practice
@@ -131,8 +134,12 @@
 
 <figcaption align="center"><i>A single package</i></figcaption>
 
-### Literally, everything was there, from CSS files, fxml files (kinda like HTML, but worse) to Java code
+### Literally, everything was there, from CSS files, fxml files (kinda like HTML, but worse) to Java code.
 
+### With this level of organization, there were no surprise that the project became a mess.
+
+### - Completely impossible to isolate errors
+### - Git workflow became difficult to manage
 
 <div class="pagebreak" />
 
@@ -142,7 +149,7 @@
 
 ## 2.1. First Project - Bad Practice
 
-### I was very excited to participate in a project that used microservice architecture, especially when I saw the GitLab organization page which had like 20+ repositories. I was naive, still...
+### I was very excited to participate in a start-up project that used microservice architecture, especially when I saw the GitLab organization page which had like 20+ repositories. I was naive, still...
 
 <figure>
 <img src="imgs/4-Microservices First.png" style="width:100%"></img>
@@ -193,15 +200,13 @@
 
 <figcaption align="center"><i>List of repositories</i></figcaption>
 
-
-
 ### Each microservice can be developed by one single developer, and he/she can use whatever language that he/she feels confident about.
 
-### Also, for microservice projects that are developed by a team, communication becomes very important (in my case there are 10 people), so we need to use a different way to distribute the tasks and track the progress
+### Also, for microservice projects that are developed by a team, communication becomes very important (in my case there are 10 people), so we need to use a different way to distribute the tasks and track the progress, and Jira was the chosen one.
 
 <figure>
 <img src="imgs/4-Microservices Second - Communication.png" style="width:100%"></img>
-<figcaption align="center"><i>Jira</i></figcaption>
+<figcaption align="center"><i>Jira EPIC</i></figcaption>
 </figure>
 
 <div class="pagebreak" />
@@ -224,6 +229,24 @@
 
 <div class="pagebreak" />
 
+### Why do those boundaries between services exist so that we can divide them?
+
+### Let's revisit a famous and familiar concept, Separation of Concerns, which was first coined by Dijkstra:
+
+### *"Let me try to explain to you, what to my taste is characteristic for all intelligent thinking. It is, that one is willing to study in depth an aspect of one's subject matter in isolation for the sake of its own consistency, all the time knowing that one is occupying oneself only with one of the aspects. [...]* 
+
+### *It is what I sometimes have called "the separation of concerns", which, even if not perfectly possible, is yet the only available technique for effective ordering of one's thoughts, that I know of. This is what I mean by "focusing one's attention upon some aspect": it does not mean ignoring the other aspects, it is just doing justice to the fact that from this aspect's point of view, the other is irrelevant. It is being one- and multiple-track minded simultaneously."*
+
+### <b>Edsger W. Dijkstra, 1974, "On the role of scientific thought"</b>
+
+### "From this aspect's point of view, the other is irrelevant", ask this question when facing a sub-problem that needs to be resolve. For example:
+
+### - Do we need to know anything about a store's customers when we authorize the owner of it? No? Then let the authentication API and customer information API belongs to two different microservices.
+
+### - Do we really need to know anything about user's information to show them a news on a news site (vnexpress for example)? No? Then let the user's details API and news API belongs to two different microservices.
+
+<div class="pagebreak" />
+
 <a name='iv-comparison'></a>
 
 # **IV. COMPARISON**
@@ -238,16 +261,20 @@
 | Usually use only one programming language | Flexible in terms of language |
 | Easy for testing | Difficult to test (needs to create mock services to test one service) |
 | Easy to trace errors and exceptions      | Tracing errors and exceptions is difficult      |
-| Easier deployment (single packaged application)  | Difficult to deploy (have to run all microservices to make the system function as expected)        |
-| Updating a function requires redeploying again the whole system | Only need to redeploy the updated service |
-| Lower initial costs | Higher initial costs |
+| Easier deployment (single packaged application)*  | Difficult to deploy (have to run all microservices to make the system function as expected)        |
+| Updating a function requires redeploying again the whole application | Only need to redeploy the updated service |
+| Lower initial costs | Higher initial costs* |
 
-<b>*</b> Microservices usually use communication via network interfaces while Monoliths application functions communicate internally. Read/Write speed of hardware (RAM, SSD or HDD) should always be faster than communication on the Internet
+<b>*</b> Microservices usually use communication via network interfaces while Monoliths application functions communicate internally. Read/Write speed of hardware (RAM or SSD) should always be faster than communication over the Internet.
+
+<b>*</b> Even though deployment for monoliths is easier, it requires downtime for the whole system for an update. [Rolling updates](https://cloud.google.com/kubernetes-engine/docs/how-to/updating-apps) can be performed, but still a larger portion of computing power needs to be "down" for an update. E.g: With 4 identical servers, we only have 75% computing power left during update time with monolithic structure, while for microservices, it would only affect one single service and one single server at a time with rolling updates.
+
+<b>*</b> If we take [opportunity cost](https://www.investopedia.com/terms/o/opportunitycost.asp#:~:text=our%20editorial%20policies-,What%20Is%20Opportunity%20Cost%3F,choosing%20one%20alternative%20over%20another.) into consideration, it would be favourable for microservices. Although monoliths are easier to deploy, that does not mean those applications can be deployed frequently as each redeployment requires a longer testing process. Faster updates => More new features come out and more bugs are fixed.
 <div class="pagebreak" />
 
-<a name='v-conclusion'></a>
+<a name='v-remarks'></a>
 
-# **V. CONCLUSION**
+# **V. REMARKS**
 
 ### Both architectures have their own strengths and drawbacks. But we can only utilize their strengths with <b>a clear system design and a cohesive way to manage and communicate between team members</b>, otherwise <b>no architectures</b> can save <b>a badly managed and poorly designed project</b>.
 
@@ -257,6 +284,8 @@
 
 ### - Be very careful when choosing monolithic architecture for any project. This architecture should only be applied to small and simple applications that serve a very narrow purpose.
 
+### - Monolithic architecture also limits the choice about technology stack, including programming languages => frameworks and tools. Narrow range of technology also means you can only hire developers with very specific experience, and it can also limit their potential to contribute.
+
 ### - If an application reaches a point where the codebase starts to become confusing, it's a good sign to move to microservices architecture.
 
 ### **For microservices projects**:
@@ -265,7 +294,7 @@
 
 ### - A "microservice" can still reach a point where it becomes "macro", and that's when we need to divide it into multiple smaller services.
 
-### - It is known as a "luxury" solution which would be very suitable for large projects. However, as it inherits the characteristics of "Divide and Conquer" motto, small teams or even individuals are still able to implement microservices as long as their system design process returns a clear picture about those components. 
+### - It is known as a "luxury" solution which would be very suitable for large projects. However, as it inherits the characteristics of ["Divide and Conquer"](https://www.slideshare.net/danieljacobson/netflix-api-separation-of-concerns) motto, small teams or even individuals are still able to implement microservices as long as their system design process returns a clear picture about those components. 
 
 ### - It is relatively rare to see a project moving back to monolithic architectures after applying microservices.
 
